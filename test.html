@@ -1,0 +1,48 @@
+<html>
+<style>
+body {font-family:menlo;}
+img {display:block;}
+</style>
+<body>
+<div id="out">Running...</div>
+<script type="text/javascript">
+	
+	// how many images to load?
+	var num = 10;
+	
+	// from where? Edit this...
+	var url = window.location.origin +':4000?eq=';
+	
+	var cnt = 0;
+	var imgs = [];
+
+	function loaded(evnt){
+		console.log( "loaded", cnt );
+		load();
+	}
+
+	function load(){
+		if( cnt < num ){
+			cnt ++;
+			imgs[cnt] = document.createElement("img");
+			imgs[cnt].setAttribute('src', url + "e^{i \\pi} = "+ cnt);
+			imgs[cnt].onload = loaded;
+			document.body.appendChild(imgs[cnt]);
+
+		}else{
+			// done
+			var end = window.performance.now();
+			var dur = end - start;
+			var avg = dur / num;
+			var msg = "Converted "+ cnt +" strings in "+ dur +"ms. Avg:"+ avg +"ms";
+			console.log(msg);
+			document.getElementById("out").innerText = msg;
+		}
+	}
+	
+	var start = window.performance.now();
+	document.getElementById("out").innerText = "Running tests on "+ window.location.origin +" endpoint";
+	load();
+</script>
+</body>
+</html>
